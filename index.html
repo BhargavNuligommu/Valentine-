@@ -1,73 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Valentine's Day!</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #ffebee;
-            font-family: Arial, sans-serif;
-        }
-        .card {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .button {
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #ff4081;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .confetti {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>❤️</title>
+
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#ffe6ec;
+      font-family: system-ui, sans-serif;
+    }
+
+    .card{
+      background:white;
+      padding:30px;
+      border-radius:20px;
+      text-align:center;
+      width:90%;
+      max-width:400px;
+      box-shadow:0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    h1{ margin-bottom:10px; }
+    p{ margin:10px 0 20px; }
+
+    button{
+      padding:12px 20px;
+      font-size:16px;
+      border:none;
+      border-radius:20px;
+      cursor:pointer;
+    }
+
+    .yes{ background:#ff2f6d; color:white; }
+    .no{ background:#eee; position:absolute; }
+
+    .buttons{
+      position:relative;
+      height:60px;
+    }
+
+    .confetti{
+      position:fixed;
+      top:-10px;
+      width:8px;
+      height:12px;
+      animation:fall 2s linear forwards;
+    }
+
+    @keyframes fall{
+      to{ transform:translateY(110vh) rotate(360deg); }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="card">
-        <h1>Happy Valentine's Day!</h1>
-        <p>Love is in the air!</p>
-        <button class="button" onclick="showLove()">Show Love!</button>
-    </div>
-    <canvas class="confetti"></canvas>
-    <script>
-        function showLove() {
-            const canvas = document.querySelector('.confetti');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const colors = ["#ff4081", "#ffeb3b", "#4caf50", "#00bcd4", "#673ab7"];
-            function createConfetti() {
-                const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height;
-                const size = Math.random() * 5 + 5;
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                ctx.beginPath();
-                ctx.arc(x, y, size, 0, Math.PI * 2);
-                ctx.fillStyle = color;
-                ctx.fill();
-            }
-            for (let i = 0; i < 100; i++) {
-                createConfetti();
-            }
-        }
-    </script>
+
+<div class="card" id="card">
+  <h1>Hey ❤️</h1>
+  <p>I made something small but special for you.</p>
+  <button class="yes" onclick="ask()">Next</button>
+</div>
+
+<script>
+  const card = document.getElementById("card");
+
+  function ask(){
+    card.innerHTML = `
+      <h1>Will you be my Valentine? 💌</h1>
+      <div class="buttons">
+        <button class="yes" onclick="yes()">Yes</button>
+        <button class="no" id="no">No</button>
+      </div>
+    `;
+    dodge();
+  }
+
+  function dodge(){
+    const no = document.getElementById("no");
+    no.onmouseenter = no.onclick = () => {
+      no.style.left = Math.random()*200 + "px";
+      no.style.top  = Math.random()*40 + "px";
+    };
+  }
+
+  function yes(){
+    card.innerHTML = `
+      <h1>YAY 💖</h1>
+      <p>You just made me really happy.</p>
+      <p>Happy Valentine's Day ❤️</p>
+    `;
+    confetti();
+  }
+
+  function confetti(){
+    for(let i=0;i<60;i++){
+      const c=document.createElement("div");
+      c.className="confetti";
+      c.style.left=Math.random()*100+"vw";
+      c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),2000);
+    }
+  }
+</script>
+
 </body>
 </html>
